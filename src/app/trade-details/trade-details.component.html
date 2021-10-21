@@ -1,0 +1,72 @@
+  <div class="balance-container">
+    <button mat-raised-button color="accent" (click)="openAddModal()">New trade</button>
+    <label>Balance: {{balance$ | async}}</label>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Entry Date</th>
+        <th>Entry Price</th>
+        <th>Exit Date</th>
+        <th>Exit Price</th>
+        <th>Profit</th>
+        <th>Edit Trade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trade of tradeStateService$| async">
+        <td *ngIf="trade?.id !== undefined">
+          {{trade.id}}
+        </td>
+        <td *ngIf="trade?.entryDate !== undefined">
+          {{trade.entryDate | date:'MMMM dd yyyy'}}
+        </td>
+        <td *ngIf="trade?.entryPrice !== undefined">
+          {{trade.entryPrice}}
+        </td>
+        <td *ngIf="trade?.exitDate !== undefined">
+          {{trade.exitDate | date:'MMMM dd yyyy'}}
+        </td>
+        <td *ngIf="trade?.exitPrice !== undefined">
+          {{trade.exitPrice}}
+        </td>
+        <td *ngIf="trade?.profit !== undefined">
+          {{trade.profit}}
+        </td>
+        <td *ngIf="trade"> <button mat-raised-button color="accent" (click)="openEditModal(trade)">Edit</button> </td>
+      </tr>
+    </tbody>
+  </table>
+
+<ng-template #tradeDetailsModal>
+  <h1 mat-dialog-title>{{ editModal ? 'Edit Trade' : 'New Trade' }}</h1>
+  <form [formGroup]="selectedTrade" class="form-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Entry date</mat-label>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <input matInput [matDatepicker]="picker" formControlName="entryDate">
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Entry Price:</mat-label>
+      <input matInput formControlName="entryPrice" class="form-control">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Exit date</mat-label>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <input matInput [matDatepicker]="picker2" formControlName="exitDate">
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-error *ngIf="selectedTrade.hasError('dateError') && selectedTrade.get('entryDate').touched && selectedTrade.get('exitDate').touched">Exit date should be equal or greater than entry date</mat-error>
+    <mat-form-field appearance="fill">
+      <mat-label>Exit Price:</mat-label>
+      <input matInput formControlName="exitPrice" class="form-control">
+    </mat-form-field>
+  </form>
+  <div mat-dialog-actions class="button-container">
+    <button mat-button matDialogClose="closed">Close</button>
+    <button mat-button [mat-dialog-close]="selectedTrade" [disabled]="selectedTrade.invalid">{{editModal ? 'Update' : 'Add'}}</button>
+  </div>
+</ng-template>

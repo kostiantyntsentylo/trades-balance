@@ -1,0 +1,43 @@
+table {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  background: aliceblue;
+  padding: 15px;
+  box-shadow: 0 8px 8px -4px lightblue;
+  border-radius: 30px;
+}
+
+button {
+  margin: 14px;
+}
+
+.balance-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.warn-button {
+  width: 80px;
+}
+
+.mat-error {
+  padding-bottom: 15px;
+}
+
+.mat-form-field {
+  width: 236px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
